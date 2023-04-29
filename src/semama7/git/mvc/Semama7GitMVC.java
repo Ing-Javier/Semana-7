@@ -4,6 +4,8 @@
  */
 package semama7.git.mvc;
 
+import semama7.git.mvc.controlador.Controlador;
+
 /**
  *
  * @author uniri
@@ -14,7 +16,9 @@ public class Semama7GitMVC {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Invocamos el controlador como un objeto
+        semama7.git.mvc.controlador.Controlador ObjC = new Controlador();
+        
     }
     
 }
