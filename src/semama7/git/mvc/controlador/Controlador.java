@@ -19,16 +19,15 @@ import semama7.git.mvc.vista.INpaginaPrincipal;
  *
  * @author uniri
  */
-public class Controlador implements ActionListener{
-    
+public class Controlador implements ActionListener {
     Login l;
     INLogin inLogin;
     LoginDAO lDao;
     INpaginaPrincipal inPrincipal;
     Clientes cli;
     ClientesDAO cliDAO;
-    
-        public Controlador() {
+
+    public Controlador() {
         
         //Modelos
         this.l = new Login();
@@ -42,7 +41,6 @@ public class Controlador implements ActionListener{
         
     }
 
-        
     public void iniciar(){
         
         // Se agrega el action listener al boton login
@@ -54,10 +52,12 @@ public class Controlador implements ActionListener{
         
     }
     
-          
-        
     @Override
     public void actionPerformed(ActionEvent ae) {
+        
+
+        
+        
         
         // Si se presiono el boton crear usuario
         if (ae.getSource().equals(inPrincipal.getBtnCrear() )){
@@ -65,19 +65,16 @@ public class Controlador implements ActionListener{
             creaCliente();
             
         }
-
-
-        // Se verifican las acciones generadas
-        
-        // Si se presiono el boton login
-        if (ae.getSource().equals(inLogin.getBtnLogin() )){
-            // Se llama el metodo login.
-            login();
+     
+        // Si se presiono el boton consultar usuario
+        if (ae.getSource().equals(inPrincipal.getBtnConsultar() )){
+            // Se llama el metodo crear cliente
+            consultaCliente();
             
         }
+        
     }
-    
-    
+
     private void login() {
         
         // Se obtiene captura la información de usuario y contraseña y se asigna al objeto login.
@@ -96,20 +93,34 @@ public class Controlador implements ActionListener{
         
         }else{
             //JOptionPane.showMessageDialog(null, "Usuario correcto" + l.getPerfil());
-            iniciarPrincipal();
             
+            iniciarPrincipal();
         }
        
     }
     
     public void iniciarPrincipal(){  
         
+        // Se agrega el action a los botones
+        inPrincipal.getBtnCrear().addActionListener(this);
+        inPrincipal.getBtnConsultar().addActionListener(this);
+        //inLogin.getBtnLogin().addActionListener(this);
+        // Se posiciona la ventana en el centro de la patalla
+        inPrincipal.setLocationRelativeTo(null);
+        
+        if (l.getPerfil().equals("1") || l.getPerfil().equals("2")){
+            inPrincipal.btnCrear.setEnabled(true);
+            inPrincipal.btnConsultar.setEnabled(true);
+        }else{
+            inPrincipal.btnCrear.setEnabled(false);
+            inPrincipal.btnConsultar.setEnabled(true);
+        }       
         // Se hace vidible la ventana
         inPrincipal.setVisible(true);
         inLogin.dispose();
 
     }
-    
+
     private void creaCliente() {
         // Se obtiene captura la información del cliente
         
@@ -130,6 +141,25 @@ public class Controlador implements ActionListener{
             
         }
     }
+
+    private void consultaCliente() {
+        // Se captura la información de la cedula y se asigna al atributo del cliente.
+        cli.setCedula(inPrincipal.getTxtCedula().getText());
+        
+        // Se invoca el metodo para consultar el cliente
+        Object[] data = cliDAO.consultaCliente(cli);  
+        
+        if (data[3].toString().equals("0")){   
+            JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+        }else{
+            //Se envian los datos obtenidos al front
+            inPrincipal.txtNombre.setText(data[0].toString());
+            inPrincipal.txtTelefono.setText(data[1].toString());
+            inPrincipal.txtEmail.setText(data[2].toString());
+        }
+    }
+
+
     
     
 }
