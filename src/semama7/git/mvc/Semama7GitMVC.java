@@ -18,7 +18,7 @@ public class Semama7GitMVC {
     public static void main(String[] args) {
         // Invocamos el controlador como un objeto
         semama7.git.mvc.controlador.Controlador ObjC = new Controlador();
-        
+        ObjC.iniciar();
     }
     
 }

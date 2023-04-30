@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import semama7.git.mvc.modelo.Login;
 import semama7.git.mvc.modelo.LoginDAO;
 import semama7.git.mvc.vista.INLogin;
+import semama7.git.mvc.vista.INpaginaPrincipal;
+
 
 /**
  *
@@ -20,6 +22,7 @@ public class Controlador implements ActionListener{
     Login l;
     INLogin inLogin;
     LoginDAO lDao;
+    INpaginaPrincipal inPrincipal;
     
     
         public Controlador() {
@@ -79,13 +82,19 @@ public class Controlador implements ActionListener{
             
         
         }else{
-            JOptionPane.showMessageDialog(null, "Usuario correcto" + l.getPerfil());
-            
+            //JOptionPane.showMessageDialog(null, "Usuario correcto" + l.getPerfil());
+            iniciarPrincipal();
             
         }
        
     }
     
-    
+    public void iniciarPrincipal(){  
+        
+        // Se hace vidible la ventana
+        inPrincipal.setVisible(true);
+        inLogin.dispose();
+
+    }
     
 }
